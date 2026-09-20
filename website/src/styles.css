@@ -9,12 +9,14 @@
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+section[id], #mobile-help { scroll-margin-top: 80px; }
 body { margin: 0; min-width: 320px; background: #f8f9ff; }
 button, a { font: inherit; }
 button { cursor: pointer; }
 img { display: block; max-width: 100%; }
-.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-.icon-filled { font-variation-settings: 'FILL' 1; }
+@layer components {
+  .material-symbols-outlined { display: inline-block; width: 1em; height: 1em; flex-shrink: 0; font-size: 24px; vertical-align: middle; }
+}
 .ambient-shadow { box-shadow: 0 4px 12px rgba(37, 99, 235, 0.05); }
 .ambient-shadow-hover:hover { box-shadow: 0 8px 24px rgba(37, 99, 235, 0.1); }
 .no-scrollbar::-webkit-scrollbar { display: none; }

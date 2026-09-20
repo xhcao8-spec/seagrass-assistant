@@ -1,87 +1,110 @@
-# 海草跨境助手
+# 海草跨境助手 · SeaGrass Assistant
 
-Windows 桌面聊天辅助工具。沿用原有 Logo 和界面，使用用户自己的 DeepSeek API Key，不需要海草账号或业务服务器。
+**用 AI 翻译聊天，用更自然的语言沟通。**
 
-> **开发进度：由于时间有限，目前暂时只完善 WhatsApp，后续将逐步完善其他平台。**
-> Facebook、Instagram、LinkedIn、X 等平台入口仍在逐步适配中，不代表功能已全部完成。
+海草跨境助手是一款开源的 Windows 聊天辅助工具，面向跨语言沟通、外贸交流和日常聊天。通过 **DeepSeek V4.1 Flash** 提供消息翻译、聊天建议回复与图片理解，填入自己的 DeepSeek API Key 即可使用。
 
-## 下载软件
+> 由于时间有限，目前暂时只完善 WhatsApp，后续将逐步完善其他平台。
+> Facebook、Instagram、LinkedIn、X 等入口正在适配，暂不代表这些平台的全部功能已完成。
 
-不懂编程也可以直接使用：下载 Windows 安装包，不需要自行编译源码。
+[下载软件](https://github.com/xhcao8-spec/seagrass-assistant/releases/latest) · [使用教程](docs/使用教程.md) · [官方网站](https://www.mutusv.cn) · [反馈问题](https://github.com/xhcao8-spec/seagrass-assistant/issues)
 
-- [GitHub 最新版本与安装包](https://github.com/xhcao8-spec/seagrass-assistant/releases/latest)：展开 **Assets**，下载 `SeagrassAssistant-Setup-版本号.exe`。
-- [蓝奏云下载](https://wwamz.lanzouu.com/b01euscfwj)：提取码 **9ysu**。
-- [官方网站](https://www.mutusv.cn)：下载入口与在线使用教程。
+## 核心功能与优势
 
-GitHub 中的 `Source code (zip)` / `Source code (tar.gz)` 是源码，不是安装程序。不同下载渠道的版本以实际上传的文件为准。
+### AI 聊天翻译
 
-## 五分钟上手
+- 使用大模型理解原文语义并生成译文，尽量保留原文的语气、人称、段落、表情和数字。
+- 在聊天页面查看原文与译文，减少复制、切换翻译工具的操作。
+- 支持接收消息翻译与发送内容翻译，可分别选择目标语言。
+- 支持自动翻译、手动翻译和重新翻译；不同窗口、不同聊天可使用各自的翻译设置。
 
-1. 安装并打开海草跨境助手，进入 **系统设置 → DeepSeek API**。
+### 更贴近对话的 AI 建议回复
+
+- 参考当前已加载的聊天内容，区分“我”和“对方”，生成供你审核的回复草稿。
+- **快速回复**适合简短回应；**精聊回复**更关注话题、语气和对方的情绪。
+- 可以填写本次回复目的，例如“回应他的旅行分享，像朋友聊天，不谈业务”。
+- 尝试参考你在当前对话中的称呼、用词、长短和表情，让草稿更符合你的表达习惯。
+- 每次可选择 **1—4 条建议**，附中文参考，插入输入框后可继续修改；不会自动发送。
+
+### 图片也能参与聊天建议
+
+WhatsApp 当前聊天中已加载的图片可以作为 AI 回复的上下文。生成时最多读取最近 **4 张可读取图片**，结合消息文字、顺序和发送方理解话题。图片需先加载完成；未读取到的图片不会被当成已看过。
+
+### 多窗口与日常沟通工具
+
+- 多窗口登录与切换，独立的窗口配置，顶部标签可整理顺序。
+- 聊天标签和专属翻译设置，方便区分不同联系人。
+- 本地快捷话术、图片和分组，减少重复输入。
+- 可为窗口配置自己的网络代理。
+- 查看自己的 DeepSeek API 余额；网络异常、超时和临时限流会按规则自动重试。
+
+## 使用哪个 AI 模型？
+
+| 项目 | 当前配置 |
+| --- | --- |
+| 模型 | **DeepSeek V4.1 Flash** |
+| API 模型名 | `deepseek-flash` |
+| 用途 | 聊天翻译、快速/精聊回复、聊天图片理解 |
+| 调用方式 | 软件直接请求 DeepSeek 官方 API，使用你自己填写的 Key |
+
+软件免费开源，**DeepSeek API 使用费由 DeepSeek 计收**。你可以在软件“余额”页面查看 API 账户金额。模型表现受原文、上下文、图片清晰度等影响，AI 译文和建议均需人工核对。
+
+## 下载与五分钟上手
+
+- **[GitHub 下载](https://github.com/xhcao8-spec/seagrass-assistant/releases/latest)**：展开 Assets，下载 `SeagrassAssistant-Setup-版本号.exe`。
+- **[蓝奏云下载](https://wwamz.lanzouu.com/b01euscfwj)**：提取码 **9ysu**。
+- 支持 Windows 10 / 11，当前提供 x64 安装包。不同渠道的版本以实际文件为准。
+
+`Source code (zip)` / `Source code (tar.gz)` 是源码，不是安装程序。普通用户下载 `.exe` 即可。
+
+1. 安装并打开软件，进入 **系统设置 → DeepSeek API**。
 2. 登录 [DeepSeek 开放平台](https://platform.deepseek.com/)，在 [API Keys](https://platform.deepseek.com/api_keys) 创建自己的 Key。
-3. 在软件中粘贴 Key，点击 **保存 API 设置 → 测试已保存的 Key**。不要把 Key 发给别人。
-4. 打开 **余额** 查看自己的 DeepSeek API 余额。软件不出售套餐；API 使用费由 DeepSeek 计收。
-5. 在 **应用中心** 创建 WhatsApp 窗口，使用手机 WhatsApp 的已关联设备功能扫码登录。
-6. 点击窗口齿轮设置翻译语言；在聊天中使用翻译和 AI 建议回复，核对内容后再发送。
+3. 粘贴 Key，点击 **保存 API 设置 → 测试已保存的 Key**。
+4. 点击左侧 **余额**，确认 API 账户有可用余额。
+5. 在 **应用中心** 创建 WhatsApp 窗口，用手机的“已关联设备”扫码。
+6. 点击窗口齿轮设置翻译语言，打开聊天即可使用翻译与 AI 建议。
 
-完整步骤、图片使用、常见问题和备份方法见 [中文使用教程](docs/使用教程.md)。
+详细步骤、图片使用和常见问题见 **[中文使用教程](docs/使用教程.md)**。
 
-## 使用
+## 隐私与使用提示
 
-请先阅读 [中文使用教程](docs/使用教程.md)。
-
-- WhatsApp 多窗口、收发翻译、AI 草稿、聊天标签和本地快捷回复；AI 回复支持当前聊天图片理解。
-- 账户页直接查询 DeepSeek 余额，不售卖套餐，不显示字符额度或 AI 次数额度。
-- 无团队共享、员工账号、云同步、充值订单和强制更新。
-- 下载入口：[蓝奏云文件夹](https://wwamz.lanzouu.com/b01euscfwj)，提取码 **9ysu**。
-
-**使用仍需联网**：平台聊天需要联网；翻译和 AI 会将所需聊天文本发送到 DeepSeek。Key 使用 Electron safeStorage 加密保存在本机，不保存在前端 localStorage，不发送给海草官网。
-
-当前版本 1.1.0，使用 DeepSeek V4.1 Flash（`deepseek-flash`）。软件不设置并发上限；临时限流、网络错误、超时或暂时服务异常会自动重试最多 2 次，余额不足或 Key 无效则停止并提示。更新按钮复制蓝奏云提取码后打开下载页。识图仅在生成时读取当前 WhatsApp 聊天最近的最多 4 张已加载图片，文字和图片都由 DeepSeek 处理。
-
-## 项目结构
-
-- `desktop/`：Electron + Vue 客户端，无业务后端依赖。
-- `website/`：保留 Stitch 布局的静态官网，仅说明和下载入口。
-- `docs/`：使用、发布与数据说明。
+- Key 通过 Electron `safeStorage` 加密保存在本机，不发送给海草官网。
+- 翻译和 AI 请求所需的文本、图片会发送到 DeepSeek，请确认你有权处理这些内容。
+- AI 仅读取当前加载的对话，并不了解所有历史；请特别核对金额、时间、身份、事实和承诺。
+- 临时失败最多自动重试 2 次；余额不足或 Key 无效会停止并提示。超时重试可能产生额外 API 用量。
+- 设置、标签和话术保存在本机。数据目录 `%APPDATA%/SeagrassStandalone` 含登录资料，请勿公开分享；备份方法见教程。
 
 ## 开发与构建
 
-使用 Node.js 22 或更新的 LTS，以及 pnpm。首次安装需要联网下载依赖和 Electron。
-
 ```sh
+git clone https://github.com/xhcao8-spec/seagrass-assistant.git
+cd seagrass-assistant
 pnpm install
 pnpm dev
+```
+
+使用 Node.js 22 LTS 或更新的兼容 LTS、pnpm 9.15.0。更多环境配置见 [开发与编译说明](docs/开发与编译.md)。
+
+```sh
 pnpm typecheck
 pnpm test
 pnpm build
 pnpm package:win
 ```
 
-如果包管理器提示阻止 Electron 的安装脚本，请按提示允许 `electron` 和 `esbuild` 的构建脚本，再重新构建。开发端口为 4183，不与旧版的 4173 冲突。
-
-想修改代码的开发者可以先阅读 [开发与编译说明](docs/开发与编译.md)。
-
-安装包输出到 `release/`。静态网站输出到 `website/dist/`；宝塔仅需部署该目录，不需要 Python、数据库或 `/api/v1` 反向代理。
-
-新旧版的数据目录与安装标识分开。新版使用 `%APPDATA%/SeagrassStandalone`，不自动搬运旧版 Cookie、Key 或客户数据。首次打开平台需要重新登录，这不是清空旧版数据。软件名称仍为“海草跨境助手”。
-
-没有“客户数据”页面，也不建立聊天历史归档。聊天里的标签及单独翻译设置保存在本机的 `chat-marks.json`；AI 仅读取当前加载的对话。翻译缓存和平台自身的登录缓存仍会保留在本机，请勿公开运行数据目录。
-
-## 开源许可
-
-本项目源码以 [GNU GPL v3.0](LICENSE)（GPL-3.0-only）发布，允许使用、研究、修改及商用。分发原版或修改版时，需遵守该许可证并提供对应源码，保留版权及许可声明。本软件按现状提供，不作担保。
-
-第三方组件保留各自许可证，见 [第三方许可声明](THIRD-PARTY-NOTICES.md)。品牌名称与 Logo 的商标权不因开源许可证而转让；本项目不代表相关平台官方。
-
-只发布本目录中的源码、文档和必要素材；不要发布 `node_modules`、`.migration-tools`、运行数据、日志、Key、旧服务器备份或已有用户的聊天数据。第三方依赖与品牌标识仍受各自许可约束。
+- `desktop/`：Electron + Vue 桌面客户端。
+- `website/`：静态官网。
+- `docs/`：中文教程、发布与开发说明。
+- 安装包输出到 `release/`，官网输出到 `website/dist/`。
 
 ## 后续计划与反馈
 
-- 持续完善 WhatsApp 页面变化适配、翻译稳定性、发送方识别和 AI 回复质量。
-- 逐步完善 Facebook、Instagram、LinkedIn、X 等平台的功能。
-- 持续补充使用教程、错误提示和自动化测试。
+持续完善 WhatsApp 的页面适配、翻译稳定性、发送方识别、图片理解和 AI 回复质量，并逐步完善其他平台。
 
-欢迎在 [Issues](https://github.com/xhcao8-spec/seagrass-assistant/issues) 提交问题或建议。请附软件版本、系统版本、复现步骤和脱敏截图，不要提交 API Key、平台登录二维码、手机号或真实聊天隐私。
+欢迎在 [Issues](https://github.com/xhcao8-spec/seagrass-assistant/issues) 提交版本、系统、复现步骤和脱敏截图。请勿提交 Key、登录二维码、手机号或真实聊天隐私。
 
-本项目不是 WhatsApp、Meta 或 DeepSeek 的官方产品。使用聊天平台及 API 时，请遵守相关服务条款；AI 可能产生误解或不准确内容，尤其是金额、身份、承诺等信息，请人工审核。
+## 开源许可
+
+项目源码使用 **[GPL-3.0-only](LICENSE)**，允许使用、研究、修改及商用。分发原版或修改版时，须按许可证提供对应源码并保留版权和许可声明。软件按现状提供，不作担保。
+
+第三方组件保留各自许可，见 [第三方许可声明](THIRD-PARTY-NOTICES.md)。品牌名称和 Logo 的商标权不因开源而转让。本项目不是 WhatsApp、Meta 或 DeepSeek 的官方产品，使用时请遵守相关平台条款。

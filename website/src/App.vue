@@ -2,6 +2,8 @@
 import { computed, onUnmounted, ref, watch } from 'vue';
 import desktopDocument from './stitch/desktop.html?raw';
 import mobileDocument from './stitch/mobile.html?raw';
+import SiteIcon from './SiteIcon.vue';
+import { inlineMaterialIcons } from './material-icons';
 
 const notice = ref('');
 const mobileMenuOpen = ref(false);
@@ -31,7 +33,7 @@ const tutorial = [
   ['平台进度与反馈', platformNotice + '其他平台入口不代表功能已全部完成。遇到问题可在 GitHub Issues 反馈，但请隐藏 Key、手机号、登录二维码和客户隐私。'],
 ];
 function downloadLinks() {
-  const style = 'flex-1 text-center font-label-md text-label-md px-md py-sm rounded-lg border border-primary';
+  const style = 'flex-1 text-center whitespace-nowrap font-label-md text-label-md px-md py-sm rounded-lg border border-primary';
   return `<div class="flex flex-wrap gap-sm mt-md"><a data-download="lanzou" class="${style} bg-primary text-on-primary" href="https://wwamz.lanzouu.com/b01euscfwj" target="_blank" rel="noopener noreferrer">蓝奏云下载</a><a class="${style} text-primary" href="${githubRelease}" target="_blank" rel="noopener noreferrer">GitHub 下载</a></div>`;
 }
 function tutorialHtml() {
@@ -60,7 +62,7 @@ function prepareDesktop() {
     .replaceAll('本地化处理与端到端加密，确保您的商业机密与客户隐私绝对安全。', '设置、标签和话术保存在本机；翻译和 AI 所需文本会发送至 DeepSeek，请留意隐私。')
     .replaceAll('绑定平台', '配置 API Key')
     .replaceAll('一键授权您常用的电商或社交账号。', '进入系统设置，填入自己的 DeepSeek Key 并测试连接。');
-  return html;
+  return inlineMaterialIcons(html);
 }
 
 function prepareMobile() {
@@ -81,7 +83,7 @@ function prepareMobile() {
     .replaceAll('本地化处理与端到端加密，确保您的商业机密与客户隐私绝对安全。', '设置、标签和话术保存在本机；翻译和 AI 所需文本会发送至 DeepSeek，请留意隐私。')
     .replaceAll('绑定平台', '配置 API Key')
     .replaceAll('一键授权您常用的电商或社交账号。', '进入系统设置，填入自己的 DeepSeek Key 并测试连接。');
-  return html;
+  return inlineMaterialIcons(html);
 }
 
 const desktopHtml = computed(prepareDesktop);
@@ -103,7 +105,7 @@ function handleContentClick(event: MouseEvent) {
     return;
   }
   const button = (event.target as HTMLElement).closest('button');
-  if (button?.textContent?.trim() === 'menu') { mobileMenuOpen.value = true; return; }
+  if (button?.querySelector('[data-icon="menu"]')) { mobileMenuOpen.value = true; return; }
   if (button?.textContent?.includes('下载')) download();
 }
 
@@ -126,17 +128,17 @@ onUnmounted(() => { document.body.style.overflow = ''; });
             <span>海草跨境助手</span>
           </div>
           <button aria-label="关闭菜单" class="p-2 rounded-full hover:bg-surface-container-highest transition-colors text-on-surface-variant active:scale-95 duration-150" @click="mobileMenuOpen=false">
-            <span class="material-symbols-outlined">close</span>
+            <SiteIcon name="close" />
           </button>
         </div>
         <ul class="flex flex-col gap-xs px-sm py-sm flex-grow overflow-y-auto">
-          <li><a class="flex items-center gap-md mx-2 px-4 py-3 bg-secondary-container text-on-secondary-container rounded-full hover:bg-surface-container-highest transition-colors active:opacity-80 font-label-md text-label-md" href="#mobile-features" @click="mobileMenuOpen=false"><span class="material-symbols-outlined icon-filled">star</span>产品功能</a></li>
-          <li><a class="flex items-center gap-md mx-2 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest transition-colors active:opacity-80 rounded-lg font-label-md text-label-md" href="#mobile-solutions" @click="mobileMenuOpen=false"><span class="material-symbols-outlined">lightbulb</span>解决方案</a></li>
-          <li><a class="flex items-center gap-md mx-2 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest transition-colors active:opacity-80 rounded-lg font-label-md text-label-md" href="#mobile-pricing" @click="mobileMenuOpen=false"><span class="material-symbols-outlined">sell</span>使用指南</a></li>
-          <li><a class="flex items-center gap-md mx-2 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest transition-colors active:opacity-80 rounded-lg font-label-md text-label-md" href="#mobile-help" @click="mobileMenuOpen=false"><span class="material-symbols-outlined">help</span>帮助中心</a></li>
+          <li><a class="flex items-center gap-md mx-2 px-4 py-3 bg-secondary-container text-on-secondary-container rounded-full hover:bg-surface-container-highest transition-colors active:opacity-80 font-label-md text-label-md" href="#mobile-features" @click="mobileMenuOpen=false"><SiteIcon name="star" filled />产品功能</a></li>
+          <li><a class="flex items-center gap-md mx-2 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest transition-colors active:opacity-80 rounded-lg font-label-md text-label-md" href="#mobile-solutions" @click="mobileMenuOpen=false"><SiteIcon name="lightbulb" />解决方案</a></li>
+          <li><a class="flex items-center gap-md mx-2 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest transition-colors active:opacity-80 rounded-lg font-label-md text-label-md" href="#mobile-pricing" @click="mobileMenuOpen=false"><SiteIcon name="sell" />使用指南</a></li>
+          <li><a class="flex items-center gap-md mx-2 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest transition-colors active:opacity-80 rounded-lg font-label-md text-label-md" href="#mobile-help" @click="mobileMenuOpen=false"><SiteIcon name="help" />帮助中心</a></li>
         </ul>
         <div class="p-md mt-auto border-t border-outline-variant bg-surface-container-lowest rounded-br-xl">
-          <button class="w-full flex items-center justify-center gap-sm bg-primary text-on-primary py-3 px-4 rounded-lg font-label-md text-label-md shadow-sm hover:bg-surface-tint active:scale-95 duration-150 transition-all" @click="mobileMenuOpen=false; download()"><span class="material-symbols-outlined">download</span>下载 Windows 版</button>
+          <button class="w-full flex items-center justify-center gap-sm bg-primary text-on-primary py-3 px-4 rounded-lg font-label-md text-label-md shadow-sm hover:bg-surface-tint active:scale-95 duration-150 transition-all" @click="mobileMenuOpen=false; download()"><SiteIcon name="download" />下载 Windows 版</button>
         </div>
       </nav>
     </transition>

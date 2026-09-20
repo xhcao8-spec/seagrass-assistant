@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.mutusv.cn/sitemap.xml
+Host: www.mutusv.cn

@@ -1,0 +1,27 @@
+node_modules/
+dist/
+release/
+.migration-tools/
+artifacts/
+.env
+.env.*
+*.log
+*.bak*
+.runtime*/
+deepseek-settings.json
+local-proxies.json
+*.exe
+*.blockmap
+*.pem
+*.key
+*.p12
+*.pfx
+*.sql
+*.sql.*
+chat-marks.json
+Cookies
+Cookies-journal
+Local State
+Session Storage/
+Local Storage/
+IndexedDB/

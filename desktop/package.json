@@ -1,0 +1,62 @@
+{
+  "name": "@seagrass/standalone-desktop",
+  "version": "1.1.0",
+  "private": true,
+  "license": "GPL-3.0-only",
+  "type": "module",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:web": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "electron": "electron .",
+    "package:win": "pnpm build && electron-builder --win nsis"
+  },
+  "dependencies": {
+    "simple-icons": "15.0.0",
+    "socks-proxy-agent": "8.0.5",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "electron": "^37.0.0",
+    "electron-builder": "26.15.3",
+    "typescript": "^5.7.2",
+    "vite": "^6.1.0",
+    "vue-tsc": "2.2.10"
+  },
+  "build": {
+    "appId": "cn.mutusv.seagrass.standalone",
+    "productName": "海草跨境助手",
+    "artifactName": "SeagrassAssistant-Setup-${version}.${ext}",
+    "directories": {
+      "output": "../release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*.cjs",
+      "electron/**/*.html",
+      "electron/**/*.json",
+      "!electron/**/*.test.cjs",
+      "package.json"
+    ],
+    "extraResources": [
+      { "from": "../LICENSE", "to": "LICENSE" },
+      { "from": "../THIRD-PARTY-NOTICES.md", "to": "THIRD-PARTY-NOTICES.md" }
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "public/brand/seagrass-logo.ico",
+      "executableName": "SeagrassAssistant"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "海草跨境助手"
+    }
+  }
+}

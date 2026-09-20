@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>海草跨境助手 (SeaGrass) - 让全球沟通无障碍</title>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#ffdad4",
+                    "on-tertiary-container": "#ffece8",
+                    "background": "#f8f9ff",
+                    "inverse-primary": "#b4c5ff",
+                    "on-primary-container": "#eeefff",
+                    "surface-tint": "#0053db",
+                    "surface-container-highest": "#d3e4fe",
+                    "inverse-surface": "#213145",
+                    "on-primary": "#ffffff",
+                    "surface": "#f8f9ff",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed": "#00174b",
+                    "on-error": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "surface-bright": "#f8f9ff",
+                    "surface-container-low": "#eff4ff",
+                    "on-surface": "#0b1c30",
+                    "primary-container": "#2563eb",
+                    "tertiary-container": "#b84936",
+                    "outline-variant": "#c3c6d7",
+                    "secondary-fixed-dim": "#6bd8cb",
+                    "secondary-fixed": "#89f5e7",
+                    "surface-container-high": "#dce9ff",
+                    "tertiary": "#983121",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "secondary-container": "#86f2e4",
+                    "surface-dim": "#cbdbf5",
+                    "on-tertiary-fixed": "#3f0300",
+                    "on-secondary-fixed": "#00201d",
+                    "on-background": "#0b1c30",
+                    "secondary": "#006a61",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface-variant": "#434655",
+                    "on-tertiary-fixed-variant": "#842415",
+                    "primary-fixed": "#dbe1ff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-secondary-fixed-variant": "#005049",
+                    "surface-container": "#e5eeff",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed-dim": "#ffb4a6",
+                    "outline": "#737686",
+                    "primary": "#004ac6",
+                    "on-secondary-container": "#006f66",
+                    "on-secondary": "#ffffff",
+                    "surface-variant": "#d3e4fe"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "base": "4px",
+                    "container-max": "1280px",
+                    "xl": "32px",
+                    "md": "16px",
+                    "gutter": "24px",
+                    "xs": "4px",
+                    "lg": "24px",
+                    "xxl": "48px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "label-md": ["Inter"],
+                    "headline-sm": ["Plus Jakarta Sans"],
+                    "body-lg": ["Inter"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "label-sm": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "headline-lg": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-sm": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-filled {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Custom ambient shadow to match the brand identity 'Level 1' */
+        .ambient-shadow {
+            box-shadow: 0px 4px 12px rgba(37, 99, 235, 0.05);
+        }
+        .ambient-shadow-hover:hover {
+            box-shadow: 0px 8px 24px rgba(37, 99, 235, 0.1);
+        }
+        /* Hide scrollbar for clean UI demo */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased pt-16">
+<!-- Top Navigation (Shared Component) -->
+<nav class="bg-surface/80 dark:bg-surface/80 backdrop-blur-md fixed top-0 w-full z-50 border-b border-outline-variant/30 dark:border-outline/20 shadow-sm transition-all duration-300">
+<div class="flex justify-between items-center max-w-container-max mx-auto px-lg h-16">
+<!-- Brand -->
+<a class="flex items-center gap-sm" href="#">
+<span class="material-symbols-outlined text-primary text-[28px] icon-filled" data-icon="waves">waves</span>
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">海草跨境助手</span>
+</a>
+<!-- Desktop Nav Links -->
+<div class="hidden md:flex items-center gap-xl">
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors duration-200" href="#features">产品功能</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors duration-200" href="#solutions">解决方案</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors duration-200" href="#pricing">资费方案</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors duration-200" href="#help">帮助中心</a>
+</div>
+<!-- Actions -->
+<div class="hidden md:flex items-center gap-md">
+<button class="font-label-md text-label-md bg-primary text-on-primary px-md py-sm rounded-lg shadow-sm hover:opacity-90 active:scale-95 transition-transform duration-150">
+                    下载 Windows 版
+                </button>
+</div>
+<!-- Mobile Menu Toggle -->
+<button class="md:hidden text-on-surface p-sm">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</div>
+</nav>
+<!-- Hero Section -->
+<header class="relative w-full pt-xxl pb-xl md:py-[80px] overflow-hidden">
+<!-- Abstract background decoration -->
+<div class="absolute inset-0 z-0 opacity-40" data-alt="A subtle, highly abstract geometric background texture suitable for a corporate modern website light mode. It features very soft, diffused gradients of pale royal blue and pure white, creating a sense of depth and clean, airy space. The mood is professional, safe, and technologically forward without being distracting. Soft rounded shapes faintly overlap." style="background-image: url('/images/stitch-background-1.png')"></div>
+<div class="relative z-10 max-w-container-max mx-auto px-md md:px-lg grid grid-cols-1 md:grid-cols-2 gap-xl md:gap-xxl items-center">
+<!-- Hero Copy -->
+<div class="flex flex-col gap-lg z-10">
+<div class="inline-flex items-center gap-xs px-sm py-[2px] rounded-full bg-surface-container-high border border-outline-variant/30 self-start">
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="rocket_launch">rocket_launch</span>
+<span class="font-label-sm text-label-sm text-primary">助力中小企业出海新升级</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-on-surface">
+                    看懂每一条海外客户消息，<br/>
+<span class="text-primary">快速回复</span>每一位客户。
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-[90%]">
+                    打破语言壁垒，在各大社交平台与全球客户无缝沟通。实时精准翻译，AI智能辅助回复，让您的每一次交流都专业、高效，加速成单转化。
+                </p>
+<div class="flex flex-col sm:flex-row items-center gap-md mt-sm">
+<button class="w-full sm:w-auto font-label-md text-label-md bg-primary text-on-primary px-lg py-[12px] rounded-lg shadow-md hover:shadow-lg active:scale-95 transition-all duration-150 flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+                        免费下载 Windows 版
+                    </button>
+</div>
+<div class="flex items-center gap-sm text-on-surface-variant opacity-80 mt-xs">
+<span class="material-symbols-outlined text-[18px]" data-icon="verified_user">verified_user</span>
+<span class="font-label-sm text-label-sm">安全合规，保护您的数据隐私</span>
+</div>
+</div>
+<!-- Hero Interactive UI Mockup -->
+<div class="relative w-full h-[500px] flex justify-center items-center">
+<!-- UI Card Container -->
+<div class="w-full max-w-[420px] bg-surface rounded-xl border border-outline-variant/50 ambient-shadow overflow-hidden flex flex-col z-10 transform md:rotate-[2deg] hover:rotate-0 transition-transform duration-500">
+<!-- Mockup Header -->
+<div class="bg-surface-container-lowest px-md py-sm border-b border-outline-variant/30 flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-[#25D366] flex items-center justify-center text-white shadow-sm"><svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.937 3.659 1.432 5.631 1.433h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.415-8.413"></path></svg></div>
+<div>
+<div class="font-label-md text-label-md text-on-surface">Alexey Petrov (WhatsApp)</div>
+<div class="font-label-sm text-label-sm text-secondary flex items-center gap-[2px]">
+<span class="w-[6px] h-[6px] rounded-full bg-secondary"></span> 在线
+                                </div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="more_vert">more_vert</span>
+</div>
+<!-- Chat Area -->
+<div class="flex-1 bg-background p-md flex flex-col gap-md overflow-y-auto no-scrollbar h-[280px]">
+<!-- Incoming Message (Russian) -->
+<div class="flex flex-col gap-xs self-start max-w-[85%]">
+<div class="bg-surface-container-highest px-md py-sm rounded-lg rounded-tl-none border border-outline-variant/20 shadow-sm text-on-surface font-body-sm text-body-sm relative group">
+                                Здравствуйте! Я хотел бы узнать больше о вашем продукте и условиях доставки.
+                                
+                                <!-- Translation Attachment (Inline) -->
+<div class="mt-sm pt-sm border-t border-outline-variant/30">
+<div class="flex items-center gap-[4px] text-primary mb-[2px]">
+<span class="material-symbols-outlined text-[14px]" data-icon="g_translate">g_translate</span>
+<span class="font-label-sm text-label-sm">中文直译</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">
+                                        你好！我想详细了解一下你们的产品以及发货条件。
+                                    </div>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-outline text-xs">10:42 AM</span>
+</div>
+</div>
+<!-- Input Area & AI Suggestion -->
+<div class="bg-surface-container-lowest p-sm border-t border-outline-variant/30 flex flex-col gap-sm">
+<!-- AI Suggestion Bubble -->
+<div class="bg-surface-container-low border border-primary/20 rounded-lg p-sm cursor-pointer hover:bg-surface-container-high transition-colors flex items-start gap-sm">
+<span class="material-symbols-outlined text-primary text-[18px] mt-[2px]" data-icon="auto_awesome">auto_awesome</span>
+<div class="flex-1">
+<div class="font-label-sm text-label-sm text-primary mb-[2px]">AI 智能推荐回复 (一键插入)</div>
+<div class="font-body-sm text-body-sm text-on-surface line-clamp-2">
+                                    您好，Alexey！感谢您的关注。我们的产品支持全球发货，具体到俄罗斯的物流时间大约为...
+                                </div>
+</div>
+</div>
+<!-- Actual Input -->
+<div class="flex items-end gap-sm">
+<div class="flex-1 min-h-[40px] bg-background border border-outline-variant rounded-lg px-sm py-[8px] flex items-center text-outline font-body-sm text-body-sm">
+                                输入回复内容...
+                            </div>
+<button class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-sm flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]" data-icon="send">send</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Decorative Elements -->
+<div class="absolute -z-10 top-1/4 -right-8 w-24 h-24 bg-secondary/10 rounded-full blur-2xl"></div>
+<div class="absolute -z-10 bottom-1/4 -left-8 w-32 h-32 bg-primary/10 rounded-full blur-2xl"></div>
+</div>
+</div>
+</header>
+<!-- Core Features Section (Bento Grid) -->
+<section class="py-xl md:py-xxl bg-surface-container-lowest" id="features">
+<div class="max-w-container-max mx-auto px-md md:px-lg">
+<div class="text-center mb-xl">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-sm">赋能跨境交流的核心功能</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">采用明亮专业的卡片式设计，让每一次跨国沟通都如履平地。</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg auto-rows-[minmax(240px,auto)]">
+<!-- Feature 1: Translation (Span 2) -->
+<div class="md:col-span-2 bg-surface rounded-xl border border-outline-variant/30 ambient-shadow ambient-shadow-hover transition-shadow p-lg flex flex-col justify-between overflow-hidden relative group">
+<div class="relative z-10 max-w-[60%]">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center mb-md text-primary">
+<span class="material-symbols-outlined text-[28px]" data-icon="translate">translate</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">实时精准翻译</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">原文下方即刻显示译文，无需复制粘贴跳转。告别繁琐切换，让阅读海外客户消息像母语一样自然流畅。</p>
+</div>
+<!-- Decorative Graphic -->
+<div class="absolute right-0 bottom-0 translate-x-4 translate-y-4 w-[200px] h-[150px] bg-background border border-outline-variant/30 rounded-tl-xl shadow-md p-sm opacity-80 group-hover:opacity-100 transition-opacity">
+<div class="w-3/4 h-2 bg-outline-variant/20 rounded-full mb-sm"></div>
+<div class="w-full h-12 bg-primary/10 rounded-md mb-xs flex items-center px-sm">
+<span class="w-full h-2 bg-primary/30 rounded-full"></span>
+</div>
+<div class="w-5/6 h-2 bg-outline-variant/20 rounded-full"></div>
+</div>
+</div>
+<!-- Feature 2: AI Reply -->
+<div class="bg-surface rounded-xl border border-outline-variant/30 ambient-shadow ambient-shadow-hover transition-shadow p-lg flex flex-col">
+<div class="w-12 h-12 rounded-lg bg-secondary-container flex items-center justify-center mb-md text-on-secondary-container">
+<span class="material-symbols-outlined text-[28px]" data-icon="smart_toy">smart_toy</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">智能 AI 回复</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex-1">感知对话上下文，一键生成带有中文参考的高质量外语回复，保障服务专业度。</p>
+</div>
+<!-- Feature 3: Team Assets -->
+<div class="bg-surface rounded-xl border border-outline-variant/30 ambient-shadow ambient-shadow-hover transition-shadow p-lg flex flex-col">
+<div class="w-12 h-12 rounded-lg bg-tertiary-container flex items-center justify-center mb-md text-on-tertiary-container">
+<span class="material-symbols-outlined text-[28px]" data-icon="diversity_3">diversity_3</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">团队资产协同</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex-1">云端共享话术库、产品图片与文档。统一团队服务标准，新人也能快速上手。</p>
+</div>
+<!-- Feature 4: Integration (Span 2) -->
+<div class="md:col-span-2 bg-surface rounded-xl border border-outline-variant/30 ambient-shadow ambient-shadow-hover transition-shadow p-lg flex flex-col md:flex-row items-center gap-lg">
+<div class="flex-1">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center mb-md text-primary">
+<span class="material-symbols-outlined text-[28px]" data-icon="hub">hub</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">多平台无缝集成</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-md">一套系统，聚合多方询盘。无论客户来自哪个主流社交平台，都能在一个界面内高效响应。</p>
+</div>
+<!-- Platform Badges (Stylized representation) -->
+<div class="flex-1 w-full grid grid-cols-3 gap-sm"><div class="flex flex-col items-center justify-center p-sm bg-background border border-outline-variant/30 rounded-lg hover:border-primary/40 transition-colors group/badge"><svg class="w-8 h-8 text-[#25D366] mb-xs" fill="currentColor" viewbox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.937 3.659 1.432 5.631 1.433h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.415-8.413"></path></svg><span class="font-label-sm text-label-sm text-on-surface">WhatsApp</span></div><div class="flex flex-col items-center justify-center p-sm bg-background border border-outline-variant/30 rounded-lg hover:border-primary/40 transition-colors group/badge"><svg class="w-8 h-8 text-[#1877F2] mb-xs" fill="currentColor" viewbox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg><span class="font-label-sm text-label-sm text-on-surface">Facebook</span></div><div class="flex flex-col items-center justify-center p-sm bg-background border border-outline-variant/30 rounded-lg hover:border-primary/40 transition-colors group/badge"><svg class="w-8 h-8 text-[#E4405F] mb-xs" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.668-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"></path></svg><span class="font-label-sm text-label-sm text-on-surface">Instagram</span></div><div class="flex flex-col items-center justify-center p-sm bg-background border border-outline-variant/30 rounded-lg hover:border-primary/40 transition-colors group/badge"><svg class="w-8 h-8 text-[#0A66C2] mb-xs" fill="currentColor" viewbox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg><span class="font-label-sm text-label-sm text-on-surface">LinkedIn</span></div><div class="flex flex-col items-center justify-center p-sm bg-background border border-outline-variant/30 rounded-lg hover:border-primary/40 transition-colors group/badge"><svg class="w-8 h-8 text-on-surface mb-xs" fill="currentColor" viewbox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"></path></svg><span class="font-label-sm text-label-sm text-on-surface">X (Twitter)</span></div><div class="flex flex-col items-center justify-center p-sm bg-surface-container-high border border-primary/20 rounded-lg text-primary hover:bg-primary/10 transition-colors"><span class="material-symbols-outlined text-[28px]" data-icon="add">add</span><span class="font-label-sm text-label-sm mt-xs">更多</span></div></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Workflow Section -->
+<section class="py-xl md:py-xxl bg-background border-t border-outline-variant/20">
+<div class="max-w-container-max mx-auto px-md md:px-lg">
+<div class="text-center mb-xl">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-sm">极简使用流程</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">四个步骤，轻松搞定复杂的跨国业务沟通。</p>
+</div>
+<div class="flex flex-col md:flex-row items-start justify-between relative gap-lg md:gap-sm">
+<!-- Connecting Line (Desktop) -->
+<div class="hidden md:block absolute top-[40px] left-[10%] right-[10%] h-[2px] bg-outline-variant/30 z-0"></div>
+<!-- Step 1 -->
+<div class="flex-1 flex flex-col items-center text-center relative z-10 w-full">
+<div class="w-20 h-20 rounded-full bg-surface border-4 border-background shadow-md flex items-center justify-center text-primary mb-md">
+<span class="material-symbols-outlined text-[32px]" data-icon="forum">forum</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-xs">1. 打开对话</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant px-md">在任意集成的社交平台点开新询盘。</p>
+</div>
+<!-- Step 2 -->
+<div class="flex-1 flex flex-col items-center text-center relative z-10 w-full">
+<div class="w-20 h-20 rounded-full bg-surface border-4 border-background shadow-md flex items-center justify-center text-secondary mb-md">
+<span class="material-symbols-outlined text-[32px]" data-icon="g_translate">g_translate</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-xs">2. 阅读译文</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant px-md">原文下方即刻呈现精准的母语翻译。</p>
+</div>
+<!-- Step 3 -->
+<div class="flex-1 flex flex-col items-center text-center relative z-10 w-full">
+<div class="w-20 h-20 rounded-full bg-surface border-4 border-background shadow-md flex items-center justify-center text-primary mb-md">
+<span class="material-symbols-outlined text-[32px]" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-xs">3. AI 生成回复</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant px-md">点击智能建议，一键获取得体的外语回复。</p>
+</div>
+<!-- Step 4 -->
+<div class="flex-1 flex flex-col items-center text-center relative z-10 w-full">
+<div class="w-20 h-20 rounded-full bg-primary border-4 border-background shadow-md flex items-center justify-center text-on-primary mb-md">
+<span class="material-symbols-outlined text-[32px]" data-icon="send_time_extension">send_time_extension</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-xs">4. 确认发送</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant px-md">审核中文参考确认无误后，点击发送即可。</p>
+</div>
+</div>
+</div>
+</section>
+<!-- FAQ Section -->
+<section class="py-xl md:py-xxl bg-background border-t border-outline-variant/20" id="pricing"><div class="max-w-container-max mx-auto px-md md:px-lg"><div class="text-center mb-xl"><h2 class="font-headline-lg text-headline-lg text-on-surface mb-sm">资费方案</h2><p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">透明灵活的资费选择，助力企业高效出海</p></div><div class="flex overflow-x-auto no-scrollbar gap-lg pb-md snap-x snap-mandatory">
+<!-- Basic Plan -->
+<div class="flex-shrink-0 w-[320px] snap-center bg-surface rounded-xl border border-outline-variant/30 ambient-shadow p-lg flex flex-col relative overflow-hidden">
+<div class="absolute top-4 right-[-35px] bg-secondary text-on-secondary px-10 py-1 rotate-45 text-label-sm font-bold shadow-sm">在线</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">基础版</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-md">适合个人或初创团队</p>
+<div class="mb-lg"><span class="text-[32px] font-bold text-primary">¥199</span><span class="text-on-surface-variant text-body-sm"> / 月</span></div>
+<ul class="flex flex-col gap-sm mb-md">
+<li class="flex items-center gap-sm text-body-sm text-on-surface-variant"><span class="material-symbols-outlined text-primary text-[18px]">check_circle</span> 翻译额度：50万字符/月</li>
+<li class="flex items-center gap-sm text-body-sm text-on-surface-variant"><span class="material-symbols-outlined text-primary text-[18px]">check_circle</span> AI回复：1000次/月</li>
+<li class="flex items-center gap-sm text-body-sm text-on-surface-variant"><span class="material-symbols-outlined text-primary text-[18px]">check_circle</span> 有效期：30天</li>
+</ul>
+</div>
+<!-- Professional Plan -->
+<div class="flex-shrink-0 w-[320px] snap-center bg-surface rounded-xl border-2 border-primary ambient-shadow p-lg flex flex-col relative overflow-hidden z-10">
+<div class="absolute top-4 right-[-35px] bg-primary text-on-primary px-10 py-1 rotate-45 text-label-sm font-bold shadow-sm">推荐</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">专业版</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-md">适合快速成长的出海企业</p>
+<div class="mb-lg"><span class="text-[32px] font-bold text-primary">¥499</span><span class="text-on-surface-variant text-body-sm"> / 月</span></div>
+<ul class="flex flex-col gap-sm mb-md">
+<li class="flex items-center gap-sm text-body-sm text-on-surface-variant"><span class="material-symbols-outlined text-primary text-[18px]">check_circle</span> 翻译额度：200万字符/月</li>
+<li class="flex items-center gap-sm text-body-sm text-on-surface-variant"><span class="material-symbols-outlined text-primary text-[18px]">check_circle</span> AI回复：5000次/月</li>
+<li class="flex items-center gap-sm text-body-sm text-on-surface-variant"><span class="material-symbols-outlined text-primary text-[18px]">check_circle</span> 有效期：30天</li>
+</ul>
+</div>
+<!-- Enterprise Plan -->
+<div class="flex-shrink-0 w-[320px] snap-center bg-surface rounded-xl border border-outline-variant/30 ambient-shadow p-lg flex flex-col relative overflow-hidden">
+<div class="absolute top-4 right-[-35px] bg-tertiary text-on-tertiary px-10 py-1 rotate-45 text-label-sm font-bold shadow-sm">热销</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">旗舰版</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-md">适合大规模跨境业务团队</p>
+<div class="mb-lg"><span class="text-[32px] font-bold text-primary">¥1299</span><span class="text-on-surface-variant text-body-sm"> / 月</span></div>
+<ul class="flex flex-col gap-sm mb-md">
+<li class="flex items-center gap-sm text-body-sm text-on-surface-variant"><span class="material-symbols-outlined text-primary text-[18px]">check_circle</span> 翻译额度：不限额度</li>
+<li class="flex items-center gap-sm text-body-sm text-on-surface-variant"><span class="material-symbols-outlined text-primary text-[18px]">check_circle</span> AI回复：不限次数</li>
+<li class="flex items-center gap-sm text-body-sm text-on-surface-variant"><span class="material-symbols-outlined text-primary text-[18px]">check_circle</span> 有效期：30天</li>
+</ul>
+</div>
+</div><div class="flex overflow-x-auto no-scrollbar gap-lg pb-md snap-x snap-mandatory">
+<!-- Basic Plan -->
+<div class="flex-shrink-0 w-[320px] snap-center bg-surface rounded-xl border border-outline-variant/30 ambient-shadow p-lg flex flex-col relative overflow-hidden">
+<div class="absolute top-4 right-[-35px] bg-secondary text-on-secondary px-10 py-1 rotate-45 text-label-sm font-bold shadow-sm">在线</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">基础版</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-md">适合个人或初创团队</p>
+<div class="mb-lg"><span class="text-[32px] font-bold text-primary">¥199</span><span class="text-on-surface-variant text-body-sm"> / 月</span></div>
+<ul class="flex flex-col gap-sm mb-md">
+<li class="flex items-center gap-sm text-body-sm text-on-surface-variant"><span class="material-symbols-outlined text-primary text-[18px]">check_circle</span> 翻译额度：50万字符/月</li>
+<li class="flex items-center gap-sm text-body-sm text-on-surface-variant"><span class="material-symbols-outlined text-primary text-[18px]">check_circle</span> AI回复：1000次/月</li>
+<li class="flex items-center gap-sm text-body-sm text-on-surface-variant"><span class="material-symbols-outlined text-primary text-[18px]">check_circle</span> 有效期：30天</li>
+</ul>
+</div>
+<!-- Professional Plan -->
+<div class="flex-shrink-0 w-[320px] snap-center bg-surface rounded-xl border-2 border-primary ambient-shadow p-lg flex flex-col relative overflow-hidden z-10">
+<div class="absolute top-4 right-[-35px] bg-primary text-on-primary px-10 py-1 rotate-45 text-label-sm font-bold shadow-sm">推荐</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">专业版</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-md">适合快速成长的出海企业</p>
+<div class="mb-lg"><span class="text-[32px] font-bold text-primary">¥499</span><span class="text-on-surface-variant text-body-sm"> / 月</span></div>
+<ul class="flex flex-col gap-sm mb-md">
+<li class="flex items-center gap-sm text-body-sm text-on-surface-variant"><span class="material-symbols-outlined text-primary text-[18px]">check_circle</span> 翻译额度：200万字符/月</li>
+<li class="flex items-center gap-sm text-body-sm text-on-surface-variant"><span class="material-symbols-outlined text-primary text-[18px]">check_circle</span> AI回复：5000次/月</li>
+<li class="flex items-center gap-sm text-body-sm text-on-surface-variant"><span class="material-symbols-outlined text-primary text-[18px]">check_circle</span> 有效期：30天</li>
+</ul>
+</div>
+<!-- Enterprise Plan -->
+<div class="flex-shrink-0 w-[320px] snap-center bg-surface rounded-xl border border-outline-variant/30 ambient-shadow p-lg flex flex-col relative overflow-hidden">
+<div class="absolute top-4 right-[-35px] bg-tertiary text-on-tertiary px-10 py-1 rotate-45 text-label-sm font-bold shadow-sm">热销</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">旗舰版</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-md">适合大规模跨境业务团队</p>
+<div class="mb-lg"><span class="text-[32px] font-bold text-primary">¥1299</span><span class="text-on-surface-variant text-body-sm"> / 月</span></div>
+<ul class="flex flex-col gap-sm mb-md">
+<li class="flex items-center gap-sm text-body-sm text-on-surface-variant"><span class="material-symbols-outlined text-primary text-[18px]">check_circle</span> 翻译额度：不限额度</li>
+<li class="flex items-center gap-sm text-body-sm text-on-surface-variant"><span class="material-symbols-outlined text-primary text-[18px]">check_circle</span> AI回复：不限次数</li>
+<li class="flex items-center gap-sm text-body-sm text-on-surface-variant"><span class="material-symbols-outlined text-primary text-[18px]">check_circle</span> 有效期：30天</li>
+</ul>
+</div>
+</div><div class="hidden mt-xl text-center py-xl bg-surface-container-low rounded-xl border border-dashed border-outline-variant"><span class="material-symbols-outlined text-outline text-[48px] mb-md">inventory_2</span><p class="text-on-surface-variant">暂无套餐信息</p></div></div></section><section class="py-xl md:py-xxl bg-surface-container-lowest" id="help">
+<div class="max-w-3xl mx-auto px-md md:px-lg">
+<div class="text-center mb-xl">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-sm">常见问题</h2>
+</div>
+<div class="flex flex-col gap-sm">
+<!-- FAQ Item 1 -->
+<details class="group bg-surface rounded-lg border border-outline-variant/30 overflow-hidden [&amp;_summary::-webkit-details-marker]:hidden">
+<summary class="flex items-center justify-between p-md cursor-pointer font-headline-sm text-headline-sm text-on-surface list-none">
+<span class="">支持哪些语言？</span>
+<span class="material-symbols-outlined transition-transform duration-200 group-open:rotate-180" data-icon="expand_more">expand_more</span>
+</summary>
+<div class="px-md pb-md font-body-md text-body-md text-on-surface-variant">
+                        海草跨境助手支持超过 100 种语言的实时互译，涵盖英语、俄语、西班牙语、阿拉伯语等主流语言及小语种，全面满足您的出海需求。
+                    </div>
+</details>
+<!-- FAQ Item 2 -->
+<details class="group bg-surface rounded-lg border border-outline-variant/30 overflow-hidden [&amp;_summary::-webkit-details-marker]:hidden">
+<summary class="flex items-center justify-between p-md cursor-pointer font-headline-sm text-headline-sm text-on-surface list-none">
+<span class="">AI 会自动发送消息给客户吗？</span>
+<span class="material-symbols-outlined transition-transform duration-200 group-open:rotate-180" data-icon="expand_more">expand_more</span>
+</summary>
+<div class="px-md pb-md font-body-md text-body-md text-on-surface-variant">
+                        不会。为了保证沟通的绝对安全和精准度，AI 仅会根据上下文生成“回复建议”。所有的消息最终都必须由人工阅读中文参考并点击“确认”后才会发送出去。
+                    </div>
+</details>
+<!-- FAQ Item 3 -->
+<details class="group bg-surface rounded-lg border border-outline-variant/30 overflow-hidden [&amp;_summary::-webkit-details-marker]:hidden">
+<summary class="flex items-center justify-between p-md cursor-pointer font-headline-sm text-headline-sm text-on-surface list-none">
+<span class="">支持多平台多账号集中管理吗？</span>
+<span class="material-symbols-outlined transition-transform duration-200 group-open:rotate-180" data-icon="expand_more">expand_more</span>
+</summary>
+<div class="px-md pb-md font-body-md text-body-md text-on-surface-variant">
+                        支持。您可以将多个 WhatsApp、Facebook 账号绑定至海草跨境助手，在一个统一的界面中接收和处理所有消息，避免频繁切换软件，大幅提升协同效率。
+                    </div>
+</details>
+</div>
+</div>
+</section>
+<!-- Bottom CTA Section -->
+<section class="py-xl md:py-xxl bg-primary text-on-primary relative overflow-hidden">
+<div class="absolute inset-0 opacity-10" data-alt="A clean, abstract network pattern using pure white dots and connecting lines on a transparent background. It represents global connectivity and data flow, suitable for a corporate technology overlay." style="background-image: url('/images/stitch-background-2.png')"></div>
+<div class="relative z-10 max-w-container-max mx-auto px-md md:px-lg text-center flex flex-col items-center">
+<h2 class="font-display-lg text-display-lg mb-md">准备好提升您的海外成单率了吗？</h2>
+<p class="font-body-lg text-body-lg text-on-primary-container max-w-2xl mb-xl opacity-90">
+                立即下载并体验海草跨境助手，打破语言隔阂，让全球沟通从此轻松高效。
+            </p>
+<button class="font-label-md text-label-md bg-surface text-primary px-xl py-[16px] rounded-lg shadow-lg hover:bg-surface-container-low hover:shadow-xl active:scale-95 transition-all duration-200 flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined text-[24px]" data-icon="download">download</span>
+                立即下载 Windows 版
+            </button>
+<div class="mt-md font-label-sm text-label-sm opacity-80">提供免费试用 · 无需绑定信用卡</div>
+</div>
+</section>
+<!-- Footer (Shared Component) -->
+<footer class="bg-surface-container-low dark:bg-inverse-surface w-full py-xl border-t border-outline-variant/50">
+<div class="max-w-container-max mx-auto px-lg grid grid-cols-1 md:grid-cols-4 gap-lg">
+<!-- Brand & Copyright Column -->
+<div class="md:col-span-1 flex flex-col gap-sm">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-[24px] icon-filled" data-icon="waves">waves</span>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface dark:text-inverse-on-surface">海草跨境助手</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-sm">© 2024 海草跨境助手 (SeaGrass) 版权所有.</p>
+</div>
+<!-- Links Column (Grouped for grid layout logic) -->
+<div class="md:col-span-3 flex flex-wrap gap-xl md:justify-end">
+<div class="flex flex-col gap-sm">
+<a class="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors hover:underline" href="#">隐私政策</a>
+</div>
+<div class="flex flex-col gap-sm">
+<a class="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors hover:underline" href="#">服务条款</a>
+</div>
+<div class="flex flex-col gap-sm">
+<a class="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors hover:underline" href="#">联系我们</a>
+</div>
+<div class="flex flex-col gap-sm">
+<a class="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant hover:text-secondary dark:hover:text-secondary-fixed transition-colors hover:underline" href="#">关于我们</a>
+</div>
+</div>
+</div>
+</footer>
+</body></html>
+

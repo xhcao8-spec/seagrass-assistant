@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seagrass Assistant - AI Reply</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: #15284a;
+        background: #f6f9fb;
+      }
+      * { box-sizing: border-box; }
+      html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+      body { padding: 8px; background: #f6f9fb; }
+      .panel {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-rows: 42px minmax(0, 1fr) 30px;
+        border: 1px solid #dbe5ee;
+        border-radius: 10px;
+        background: #fff;
+        box-shadow: 0 8px 26px rgba(41, 70, 98, .14);
+        overflow: hidden;
+      }
+      .panel-head {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 0 12px;
+        border-bottom: 1px solid #edf2f6;
+        background: #fbfdff;
+        -webkit-app-region: drag;
+        cursor: move;
+        user-select: none;
+      }
+      .panel-head button,
+      .panel-head input,
+      .panel-head select,
+      .panel-head label { -webkit-app-region: no-drag; user-select: auto; }
+      .sparkle { color: #246bfe; font-size: 18px; line-height: 1; }
+      .panel-title { font-size: 13px; font-weight: 700; }
+      .panel-context { color: #7d90a8; font-size: 10px; }
+      .language-summary {
+        margin-left: auto;
+        padding: 4px 7px;
+        border: 1px solid #dbe5ee;
+        border-radius: 5px;
+        color: #54718d;
+        background: #f5f9fc;
+        font-size: 10px;
+        white-space: nowrap;
+      }
+      .goal-label { margin-left: 8px; color: #6f8299; font-size: 10px; white-space: nowrap; }
+      .goal-input {
+        width: 380px;
+        height: 30px;
+        padding: 0 8px;
+        border: 1px solid #d4e1ec;
+        border-radius: 6px;
+        outline: none;
+        color: #314b69;
+        background: #fff;
+        font: inherit;
+        font-size: 11px;
+      }
+      .goal-input:focus { border-color: #78a8ff; box-shadow: 0 0 0 2px rgba(36, 107, 254, .08); }
+      .goal-input::placeholder { color: #a1afbf; }
+      .goal-generate {
+        height: 30px;
+        padding: 0 9px;
+        border: 1px solid #246bfe;
+        border-radius: 6px;
+        color: #fff;
+        background: #246bfe;
+        font-size: 10px;
+        white-space: nowrap;
+        cursor: pointer;
+      }
+      .goal-generate:hover { background: #1559dc; }
+      .mode-select {
+        height: 30px;
+        padding: 0 22px 0 7px;
+        border: 1px solid #b7cbea;
+        border-radius: 6px;
+        color: #246bfe;
+        background: #f5f8ff;
+        font: inherit;
+        font-size: 10px;
+        font-weight: 700;
+        outline: none;
+        cursor: pointer;
+      }
+      .mode-select:focus { border-color: #78a8ff; box-shadow: 0 0 0 2px rgba(36, 107, 254, .08); }
+      .panel-close {
+        width: 24px;
+        height: 24px;
+        margin-left: auto;
+        border: 0;
+        border-radius: 6px;
+        color: #7a8da5;
+        background: transparent;
+        font-size: 18px;
+        line-height: 1;
+        cursor: pointer;
+        -webkit-app-region: no-drag;
+      }
+      .panel-close:hover { color: #e85c68; background: #fff1f2; }
+      .suggestions {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: repeat(var(--suggestion-count, 2), minmax(0, 1fr)) auto;
+        align-items: stretch;
+        gap: 12px;
+        padding: 12px 14px;
+        overflow: auto;
+      }
+      .suggestion {
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-rows: minmax(0, 1fr) auto;
+        align-items: start;
+        gap: 8px;
+        padding: 10px 12px;
+        border: 1px solid #dfe8f0;
+        border-radius: 8px;
+        background: #fff;
+      }
+      .suggestion-text {
+        min-width: 0;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        grid-column: 1 / -1;
+        overflow: auto;
+        padding-right: 3px;
+      }
+      .suggestion-purpose {
+        display: block;
+        overflow: visible;
+        color: #246bfe;
+        font-size: 10px;
+        font-weight: 700;
+        line-height: 1.4;
+        word-break: break-word;
+      }
+      .suggestion-text strong, .suggestion-text small {
+        display: block;
+        overflow: visible;
+        white-space: normal;
+        line-height: 1.45;
+        word-break: break-word;
+      }
+      .suggestion-text strong { color: #314b69; font-size: 11px; font-weight: 500; }
+      .suggestion-text small { color: #0a9f9c; font-size: 10px; }
+      .suggestion-text .suggestion-rationale { color: #7d90a8; }
+      .copy-icon { display: none; }
+      .suggestion > button.action { grid-column: 2; grid-row: 2; justify-self: end; }
+      .actions { display: flex; align-items: center; gap: 7px; }
+      button.action {
+        height: 32px;
+        padding: 0 10px;
+        border: 1px solid #a9c6ff;
+        border-radius: 7px;
+        color: #246bfe;
+        background: #fff;
+        font-size: 10px;
+        white-space: nowrap;
+        cursor: pointer;
+      }
+      button.action:hover { background: #f2f6ff; }
+      button.action.primary { color: #fff; border-color: #246bfe; background: #246bfe; }
+      .panel-foot {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 12px;
+        border-top: 1px solid #edf2f6;
+        color: #8092a8;
+        font-size: 10px;
+      }
+      .platform-dot { width: 7px; height: 7px; border-radius: 50%; background: #27c76f; }
+      .platform-name { color: #0a9f9c; font-weight: 700; }
+      .model-dot { width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: #5865f2; font-size: 8px; font-weight: 800; overflow: hidden; background-position: center; background-size: cover; }
+      .model-name { color: #3f6384; font-weight: 600; }
+      .model-select { display: none; max-width: 190px; height: 24px; padding: 0 21px 0 4px; border: 1px solid #cfddea; border-radius: 5px; color: #3f6384; background: #fff; font: inherit; font-size: 10px; font-weight: 600; outline: none; }
+      .model-select:focus { border-color: #78a8ff; box-shadow: 0 0 0 2px rgba(36, 107, 254, .08); }
+      .hint { margin-left: auto; }
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 36px;
+        display: none;
+        transform: translateX(-50%);
+        padding: 7px 11px;
+        border: 1px solid #b9dedb;
+        border-radius: 7px;
+        color: #087f73;
+        background: #f0fbf9;
+        font-size: 10px;
+        box-shadow: 0 5px 15px rgba(41, 70, 98, .1);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="panel">
+      <header class="panel-head">
+        <span class="sparkle">&#x2728;</span>
+        <strong class="panel-title">&#x4eba;&#x5de5;&#x667a;&#x80fd;&#x5efa;&#x8bae;&#x56de;&#x590d;</strong>
+        <span class="panel-context" id="panel-context">&#x5f53;&#x524d;&#x5e73;&#x53f0;&#x7a97;&#x53e3;</span>
+        <span class="panel-context">&#x81ea;&#x52a8;&#x5224;&#x65ad;&#x610f;&#x56fe; &middot; &#x63a8;&#x8fdb;&#x6210;&#x4ea4; &middot; &#x8bf4;&#x660e;&#x7406;&#x7531;</span>
+        <label class="goal-label" for="reply-goal">回复目的</label>
+        <input class="goal-input" id="reply-goal" list="reply-goal-options" placeholder="不满意时填写，例如：推进报价" autocomplete="off" />
+        <datalist id="reply-goal-options">
+          <option value="确认客户需求"></option>
+          <option value="推进报价"></option>
+          <option value="催客户回复"></option>
+          <option value="介绍产品"></option>
+          <option value="解决售后问题"></option>
+        </datalist>
+        <select class="mode-select" id="reply-mode" aria-label="回复模式" title="精聊会学习你最近的聊天风格，并给出朋友式、专业式和深度式三种建议">
+          <option value="quick">快速回复</option>
+          <option value="deep" selected>精聊回复</option>
+        </select>
+        <button class="goal-generate" id="generate-replies" type="button">生成</button>
+        <button class="panel-close" id="close-panel" type="button" aria-label="&#x5173;&#x95ed;">&times;</button>
+      </header>
+      <section class="suggestions">
+        <article class="suggestion">
+          <div class="suggestion-text">
+            <span class="suggestion-purpose" id="purpose-one"></span>
+            <strong id="suggestion-one"></strong>
+            <small id="translation-one"></small>
+            <small class="suggestion-rationale" id="rationale-one"></small>
+          </div>
+          <span class="copy-icon">&#x2192;</span>
+          <button class="action" data-copy="one" type="button">&#x590d;&#x5236;&#x5230;&#x8f93;&#x5165;&#x6846;</button>
+        </article>
+        <article class="suggestion">
+          <div class="suggestion-text">
+            <span class="suggestion-purpose" id="purpose-two"></span>
+            <strong id="suggestion-two"></strong>
+            <small id="translation-two"></small>
+            <small class="suggestion-rationale" id="rationale-two"></small>
+          </div>
+          <span class="copy-icon">&#x2192;</span>
+          <button class="action" data-copy="two" type="button">&#x590d;&#x5236;&#x5230;&#x8f93;&#x5165;&#x6846;</button>
+        </article>
+        <article class="suggestion" id="suggestion-card-three">
+          <div class="suggestion-text">
+            <span class="suggestion-purpose" id="purpose-three"></span>
+            <strong id="suggestion-three"></strong>
+            <small id="translation-three"></small>
+            <small class="suggestion-rationale" id="rationale-three"></small>
+          </div>
+          <span class="copy-icon">&#x2192;</span>
+          <button class="action" data-copy="three" type="button">&#x590d;&#x5236;&#x5230;&#x8f93;&#x5165;&#x6846;</button>
+        </article>
+        <div class="actions">
+          <button class="action primary" id="change-version" type="button">&#x6362;&#x4e00;&#x7248;</button>
+        </div>
+      </section>
+      <footer class="panel-foot">
+        <span class="platform-dot"></span>
+        <span>&#x5f53;&#x524d;&#x5e73;&#x53f0;&#xff1a;</span>
+        <span class="platform-name" id="platform-name">WhatsApp</span>
+        <span>&middot;</span>
+        <span id="account-name">&#x5f53;&#x524d;&#x7a97;&#x53e3;</span>
+        <span>&middot;</span>
+         <span class="model-dot" id="model-logo">AI</span>
+         <span>&#x6a21;&#x578b;&#xff1a;</span>
+         <span class="model-name" id="model-name">DeepSeek V4.1 Flash</span>
+         <select class="model-select" id="model-select" aria-label="选择 AI 模型"></select>
+         <span class="language-summary" id="language-summary">发送语言：自动检测 · 中文参考：中文（简体）</span>
+         <span class="hint">&#x4ec5;&#x5728;&#x6253;&#x5f00;&#x5e73;&#x53f0;&#x7a97;&#x53e3;&#x65f6;&#x663e;&#x793a;</span>
+      </footer>
+    </main>
+    <div class="toast" id="toast"></div>
+    <script>
+      const bridge = window.seagrassAssistant;
+      const contextLabel = document.querySelector('#panel-context');
+      const platformName = document.querySelector('#platform-name');
+      const accountName = document.querySelector('#account-name');
+      const modelLogo = document.querySelector('#model-logo');
+      const modelName = document.querySelector('#model-name');
+      const modelSelect = document.querySelector('#model-select');
+      const languageSummary = document.querySelector('#language-summary');
+      const toast = document.querySelector('#toast');
+      const goalInput = document.querySelector('#reply-goal');
+      const modeSelect = document.querySelector('#reply-mode');
+      const generateButton = document.querySelector('#generate-replies');
+      const goalLabel = document.querySelector('.goal-label');
+      const goalOptions = document.querySelectorAll('#reply-goal-options option');
+      const goalOptionsContainer = document.querySelector('#reply-goal-options');
+      const goalPresets = [
+        '\u786e\u8ba4\u5ba2\u6237\u8d2d\u4e70\u610f\u5411\uff0c\u5e76\u63a8\u52a8\u62a5\u4ef7\u6240\u9700\u4fe1\u606f',
+        '\u63a8\u8fdb\u62a5\u4ef7',
+        '\u6e29\u548c\u8ddf\u8fdb\u672a\u56de\u590d\u5ba2\u6237',
+        '\u4ecb\u7ecd\u4ea7\u54c1',
+        '\u89e3\u51b3\u552e\u540e\u95ee\u9898',
+        '\u5904\u7406\u5ba2\u6237\u7684\u4ef7\u683c\u5f02\u8bae',
+        '\u4fdd\u6301\u5173\u7cfb\uff0c\u6682\u4e0d\u4e3b\u52a8\u9500\u552e',
+      ];
+      if (goalLabel) {
+        goalLabel.textContent = '\u56de\u590d\u76ee\u7684';
+        goalLabel.title = '\u53ef\u9009\uff1a\u544a\u8bc9 AI \u4f60\u5e0c\u671b\u8fd9\u6b21\u5bf9\u8bdd\u8fbe\u6210\u7684\u4e0b\u4e00\u6b65\u76ee\u6807';
+      }
+      if (goalInput) {
+        goalInput.placeholder = '\u53ef\u9009\uff0c\u4f8b\u5982\uff1a\u786e\u8ba4\u6570\u91cf\u540e\u63a8\u8fdb\u62a5\u4ef7';
+        goalInput.maxLength = 500;
+        goalInput.title = '\u53ef\u4ee5\u76f4\u63a5\u8f93\u5165\u81ea\u5b9a\u4e49\u56de\u590d\u76ee\u7684\uff0c\u4e5f\u53ef\u4ece\u4e0b\u62c9\u6846\u9009\u62e9\u6a21\u677f';
+        goalInput.setAttribute('aria-label', '\u56de\u590d\u76ee\u7684\uff08\u53ef\u81ea\u5b9a\u4e49\uff09');
+      }
+      goalOptions.forEach((option, index) => {
+        if (goalPresets[index]) option.value = goalPresets[index];
+      });
+      if (goalOptionsContainer && goalPresets.length > goalOptions.length) {
+        goalPresets.slice(goalOptions.length).forEach((value) => {
+          const option = document.createElement('option');
+          option.value = value;
+          goalOptionsContainer.appendChild(option);
+        });
+      }
+      let suggestions = [];
+      let context = { platformWindowId: '', platform: 'WhatsApp', account: '\u5f53\u524d\u7a97\u53e3' };
+      let suggestionRequestInFlight = false;
+      let suggestionRefreshQueued = false;
+      let contextRevision = 0;
+      let generatedRevision = -1;
+      let hasReceivedContext = false;
+      let lastContextSignature = '';
+      let goalDirty = false;
+      let goalConversationKey = '';
+      let modelCatalog = [];
+      let selectedModelCode = '';
+      const builtinLanguageLabels = {
+        auto: '自动检测',
+        zh: '中文（简体）',
+        'zh-cn': '中文（简体）',
+        'zh-chs': '中文（简体）',
+        'zh-hans': '中文（简体）',
+        'zh-tw': '中文（繁体）',
+        'zh-cht': '中文（繁体）',
+        en: '英语',
+        ja: '日语',
+        ko: '韩语',
+        es: '西班牙语',
+        fr: '法语',
+        de: '德语',
+        it: '意大利语',
+        pt: '葡萄牙语',
+        ru: '俄语',
+        ar: '阿拉伯语',
+        th: '泰语',
+        vi: '越南语',
+      };
+      function languageLabel(value) {
+        const normalized = String(value || 'auto').trim().toLowerCase();
+        return context?.languageLabels?.[normalized]
+          || builtinLanguageLabels[normalized]
+          || (normalized === 'auto' ? '自动检测' : String(value || '自动检测'));
+      }
+      function updateLanguageSummary() {
+        if (!languageSummary) return;
+        const sendLanguage = languageLabel(context.outputLanguage || 'auto');
+        const referenceLanguage = languageLabel(context.translationLanguage || 'zh');
+        languageSummary.textContent = `发送给客户：${sendLanguage} · 中文参考：${referenceLanguage}`;
+        languageSummary.title = `复制建议时使用${sendLanguage}；${referenceLanguage}仅供你核对，不会直接发送。`;
+      }
+      function conversationKey(next) {
+        return `${next?.platformWindowId || ''}::${next?.platformContactId || ''}`;
+      }
+      function showToast(message) {
+        toast.textContent = message;
+        toast.style.display = 'block';
+        window.clearTimeout(showToast.timer);
+        showToast.timer = window.setTimeout(() => { toast.style.display = 'none'; }, 2200);
+      }
+      function applyModelMetadata(model = {}) {
+        const name = String(model.display_name || model.model_name || model.code || 'DeepSeek V4.1 Flash');
+        const modelKey = String(model.code || model.provider || '').toLowerCase();
+        const isDeepSeek = modelKey === 'deepseek' || modelKey.includes('deepseek');
+        const shortName = isDeepSeek
+          ? 'DS'
+          : String(model.provider || model.code || 'AI').slice(0, 2).toUpperCase();
+        modelName.textContent = name;
+        modelLogo.textContent = shortName;
+        modelLogo.style.backgroundColor = isDeepSeek ? '#ffffff' : '#5865f2';
+        const logoUrl = model.logo_url || (isDeepSeek ? '../public/brand/deepseek-logo-hd.png' : '');
+        modelLogo.style.backgroundImage = logoUrl ? `url("${String(logoUrl).replace(/"/g, '')}")` : '';
+        if (model.code) {
+          selectedModelCode = String(model.code);
+          if (modelSelect && modelSelect.options.length) modelSelect.value = selectedModelCode;
+        }
+      }
+      function renderModelCatalog(models, currentModel = {}) {
+        modelCatalog = Array.isArray(models) ? models.filter((item) => item && item.code) : [];
+        if (!modelSelect) return;
+        modelSelect.replaceChildren();
+        modelCatalog.forEach((model) => {
+          const option = document.createElement('option');
+          option.value = String(model.code);
+          option.textContent = String(model.display_name || model.model_name || model.code);
+          modelSelect.appendChild(option);
+        });
+        const currentCode = String(currentModel.code || selectedModelCode || modelCatalog.find((item) => item.is_default)?.code || modelCatalog[0]?.code || '');
+        if (currentCode) {
+          selectedModelCode = currentCode;
+          modelSelect.value = currentCode;
+        }
+        const canSwitch = modelCatalog.length > 1;
+        modelSelect.style.display = canSwitch ? 'inline-block' : 'none';
+        modelName.style.display = canSwitch ? 'none' : 'inline';
+        if (currentModel.code) applyModelMetadata(currentModel);
+      }
+      async function loadModelCatalog() {
+        try {
+          const models = await bridge?.listModels?.();
+          if (Array.isArray(models) && models.length) renderModelCatalog(models, context.aiModel || {});
+        } catch {
+          // The context fallback still shows the current model name.
+        }
+      }
+      function renderSuggestions() {
+        const first = suggestions[0] || { text: '正在读取聊天记录…', translation: '', rationale: '' };
+        const second = suggestions[1] || { text: '正在生成第二个建议…', translation: '', rationale: '' };
+        const third = suggestions[2] || { text: '正在生成更有温度的表达…', translation: '', rationale: '' };
+        const deepMode = modeSelect?.value === 'deep';
+        const thirdCard = document.querySelector('#suggestion-card-three');
+        if (thirdCard) thirdCard.hidden = !deepMode;
+        document.querySelector('.suggestions')?.style.setProperty('--suggestion-count', deepMode ? '3' : '2');
+        const referenceLanguage = languageLabel(context.translationLanguage || 'zh');
+        const isChineseReply = /^(?:zh|中文)/i.test(String(context.outputLanguage || ''));
+        const formatTranslation = (item) => {
+          const text = String(item.text || '').trim();
+          const translation = String(item.translation || '').trim();
+          if (!translation) return '';
+          if (!isChineseReply && text && translation === text) {
+            return `${referenceLanguage}参考：模型未返回中文译文`;
+          }
+          return `${referenceLanguage}参考：${translation}`;
+        };
+        document.querySelector('#purpose-one').textContent = first.purpose ? `回复目的：${first.purpose}` : '';
+        document.querySelector('#suggestion-one').textContent = first.text || '';
+        document.querySelector('#translation-one').textContent = formatTranslation(first);
+        document.querySelector('#rationale-one').textContent = first.rationale ? `回复依据：${first.rationale}` : '';
+        document.querySelector('#purpose-two').textContent = second.purpose ? `回复目的：${second.purpose}` : '';
+        document.querySelector('#suggestion-two').textContent = second.text || '';
+        document.querySelector('#translation-two').textContent = formatTranslation(second);
+        document.querySelector('#rationale-two').textContent = second.rationale ? `回复依据：${second.rationale}` : '';
+        document.querySelector('#purpose-three').textContent = third.purpose ? `回复目的：${third.purpose}` : '';
+        document.querySelector('#suggestion-three').textContent = third.text || '';
+        document.querySelector('#translation-three').textContent = formatTranslation(third);
+        document.querySelector('#rationale-three').textContent = third.rationale ? `回复依据：${third.rationale}` : '';
+      }
+      function setLoading() {
+        suggestions = [
+          { text: '正在根据聊天记录生成建议…', translation: '', rationale: 'AI 处理中，请稍候' },
+          { text: '正在生成另一种表达…', translation: '', rationale: 'AI 处理中，请稍候' },
+          { text: '正在分析你的聊天风格和客户关系…', translation: '', rationale: '精聊模式处理中，请稍候' },
+        ];
+        renderSuggestions();
+      }
+      function contextSignature(next) {
+        const messages = Array.isArray(next?.messages) ? next.messages : [];
+        const last = messages[messages.length - 1] || {};
+        return JSON.stringify([
+          next?.platformWindowId || '',
+          next?.platformContactId || '',
+          next?.customerName || '',
+          messages.length,
+          last.message_at || '',
+          last.original_text || '',
+          last.translated_text || '',
+        ]);
+      }
+      function localFallbackSuggestions() {
+        const messages = Array.isArray(context.messages) ? context.messages : [];
+        const incoming = [...messages].reverse().find((message) => message?.direction === 'incoming');
+        const source = String(incoming?.original_text || incoming?.translated_text || '').trim();
+        const isChinese = String(context.outputLanguage || '').toLowerCase().startsWith('zh')
+          || /中文|简体|繁体/.test(String(context.outputLanguage || ''));
+        const isBusiness = /price|quote|quotation|order|unit|ship|shipping|delivery|moq|报价|价格|订单|发货|运费|数量/i.test(source);
+        if (isBusiness) {
+          return isChinese
+            ? [
+              { purpose: '确认采购需求并推进报价', text: '我来确认一下数量、收货国家和交期，再给你一份准确报价。', translation: '我来确认一下数量、收货国家和交期，再给你一份准确报价。', rationale: '客户正在询价，先补齐报价所需信息，推动进入下一步。' },
+              { purpose: '提高成交概率', text: '可以的。请确认采购数量和目标交期，我会尽快给你最合适的方案。', translation: '可以的。请确认采购数量和目标交期，我会尽快给你最合适的方案。', rationale: '先表达可承接，再引导客户补充关键条件。' },
+            ]
+            : [
+              { purpose: 'Confirm requirements and move to quotation', text: 'Absolutely. Let me confirm the quantity, destination, and required delivery date so I can send you an accurate quote.', translation: '当然可以。我先确认数量、目的地和交货日期，这样就能给你准确报价。', rationale: 'The customer is asking about a purchase; confirm the key details before quoting.' },
+              { purpose: 'Move the conversation toward a sale', text: 'We can arrange that. Could you confirm the quantity and target delivery date? I will prepare the best option for you.', translation: '我们可以安排。请确认数量和目标交期，我会为你准备最合适的方案。', rationale: 'Acknowledge the request and guide the customer to the next commercial step.' },
+            ];
+        }
+        return isChinese
+          ? [
+            { purpose: '自然回应并延续对话', text: '听起来不错。你这周还有什么安排吗？', translation: '听起来不错。你这周还有什么安排吗？', rationale: '客户在进行日常交流，先自然回应，再用开放问题继续对话。' },
+            { purpose: '保持关系并寻找需求', text: '我也很好，谢谢。最近有什么我可以帮你安排的吗？', translation: '我也很好，谢谢。最近有什么我可以帮你安排的吗？', rationale: '保持轻松语气，同时给客户一个表达需求的入口。' },
+          ]
+          : [
+            { purpose: 'Keep the conversation natural', text: 'That sounds good. Do you have any plans for the rest of the week?', translation: '听起来不错。你这周还有什么安排吗？', rationale: 'The latest message is casual, so respond naturally and keep the conversation moving.' },
+            { purpose: 'Maintain rapport and uncover a need', text: 'I am doing well too, thank you. Is there anything I can help you arrange?', translation: '我也很好，谢谢。最近有什么我可以帮你安排的吗？', rationale: 'Stay friendly while giving the customer an easy opening to share a need.' },
+          ];
+      }
+      function assistantRequestWithTimeout(request, timeoutMs = 58000) {
+        if (!request || typeof request.then !== 'function') {
+          return Promise.reject(new Error('assistant_bridge_unavailable'));
+        }
+        let timer = null;
+        const timeout = new Promise((_, reject) => {
+          timer = window.setTimeout(() => reject(new Error('assistant_request_timeout')), timeoutMs);
+        });
+        return Promise.race([request, timeout]).finally(() => {
+          if (timer) window.clearTimeout(timer);
+        });
+      }
+      async function loadSuggestions({ force = false } = {}) {
+        if (!context.messages?.length) {
+          suggestions = [{ text: '当前客户还没有可用聊天记录', rationale: '请先打开一个有消息的对话' }];
+          renderSuggestions();
+          return;
+        }
+        if (suggestionRequestInFlight) {
+          suggestionRefreshQueued = true;
+          return;
+        }
+        const requestedRevision = contextRevision;
+        if (!force && generatedRevision === requestedRevision) return;
+        suggestionRequestInFlight = true;
+        setLoading();
+        try {
+          const result = await assistantRequestWithTimeout(bridge?.suggest({
+            messages: context.messages,
+            customerName: context.customerName,
+             customerLanguage: context.customerLanguage || 'auto',
+             outputLanguage: context.outputLanguage || 'auto',
+             translationLanguage: context.translationLanguage || 'zh',
+             goal: goalInput.value.trim() || context.goal || null,
+            modelCode: selectedModelCode || context.aiModel?.code || null,
+            replyMode: modeSelect?.value === 'deep' ? 'deep' : 'quick',
+          }));
+          suggestions = Array.isArray(result?.suggestions) ? result.suggestions : [];
+          applyModelMetadata({
+            code: result?.model_code,
+            display_name: result?.model_display_name || result?.model,
+            logo_url: result?.model_logo_url,
+            provider: result?.provider,
+          });
+          if (!suggestions.length) {
+            suggestions = [{ text: 'AI 暂时没有生成可用建议', rationale: '请重试' }];
+          }
+        } catch (error) {
+          suggestions = localFallbackSuggestions();
+          if (modeSelect?.value === 'deep' && suggestions.length === 2) {
+            const isChinese = String(context.outputLanguage || '').toLowerCase().startsWith('zh')
+              || /中文|简体|繁体/.test(String(context.outputLanguage || ''));
+            suggestions.push(isChinese
+              ? { purpose: '真诚维护客户关系', text: '谢谢你愿意和我分享这些。我很珍惜我们不仅能聊工作，也能像朋友一样聊聊彼此真实的生活。', translation: '谢谢你愿意和我分享这些。我很珍惜我们不仅能聊工作，也能像朋友一样聊聊彼此真实的生活。', rationale: '精聊服务暂时不可用时的关系维护兜底表达，不虚构聊天细节。' }
+              : { purpose: '真诚维护客户关系', text: 'Thank you for sharing that with me. I really value that we can talk not only about work, but also about the real things happening in our lives.', translation: '谢谢你愿意和我分享这些。我很珍惜我们不仅能聊工作，也能聊聊彼此生活中真实发生的事情。', rationale: '精聊服务暂时不可用时的关系维护兜底表达，不虚构聊天细节。' });
+          }
+          suggestions = suggestions.map((item) => ({
+            ...item,
+            rationale: `${item.rationale}（模型暂时不可用，已使用本地兜底建议）`,
+          }));
+          showToast('AI 服务暂时不可用，已显示本地建议');
+        }
+        generatedRevision = requestedRevision;
+        suggestionRequestInFlight = false;
+        renderSuggestions();
+        if (suggestionRefreshQueued && generatedRevision !== contextRevision) {
+          suggestionRefreshQueued = false;
+          void loadSuggestions();
+        } else {
+          suggestionRefreshQueued = false;
+        }
+      }
+      document.querySelector('#close-panel').addEventListener('click', () => bridge?.hide());
+      document.querySelector('#change-version').addEventListener('click', () => {
+        contextRevision += 1;
+        void loadSuggestions({ force: true });
+      });
+      generateButton.addEventListener('click', () => {
+        contextRevision += 1;
+        void loadSuggestions({ force: true });
+      });
+      modeSelect?.addEventListener('change', () => {
+        contextRevision += 1;
+        renderSuggestions();
+        void loadSuggestions({ force: true });
+      });
+      modelSelect?.addEventListener('change', async () => {
+        const code = String(modelSelect.value || '').trim();
+        if (!code) return;
+        try {
+          const model = await bridge?.selectModel?.(code);
+          selectedModelCode = code;
+          applyModelMetadata(model || modelCatalog.find((item) => item.code === code) || {});
+          showToast(`已切换到${model?.display_name || code}`);
+          contextRevision += 1;
+          void loadSuggestions({ force: true });
+        } catch {
+          showToast('模型切换失败，请稍后重试');
+          if (context.aiModel?.code) modelSelect.value = context.aiModel.code;
+        }
+      });
+      goalInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          contextRevision += 1;
+          void loadSuggestions({ force: true });
+        }
+      });
+      goalInput.addEventListener('input', () => {
+        goalDirty = true;
+      });
+      document.querySelectorAll('[data-copy]').forEach((button) => {
+        button.addEventListener('click', async () => {
+          const suggestionIndex = button.dataset.copy === 'three'
+            ? 2
+            : button.dataset.copy === 'two'
+              ? 1
+              : 0;
+          const suggestion = suggestions[suggestionIndex] || {};
+          const key = suggestionIndex === 2
+            ? '#suggestion-three'
+            : suggestionIndex === 1
+              ? '#suggestion-two'
+              : '#suggestion-one';
+          const text = String(suggestion.text || document.querySelector(key)?.textContent || '').trim();
+          const originalText = String(suggestion.translation || '').trim();
+          try {
+            const result = await bridge?.copyToComposer({
+              text,
+              originalText,
+              platformWindowId: context.platformWindowId,
+            });
+            if (result?.ok) showToast('\u5df2\u5199\u5165\u5e73\u53f0\u8f93\u5165\u6846');
+            else if (result?.reason === 'clipboard_fallback') showToast('\u5df2\u590d\u5236\uff0c\u8bf7\u7c98\u8d34\u5230\u5e73\u53f0\u8f93\u5165\u6846');
+            else showToast('\u5f53\u524d\u5e73\u53f0\u8f93\u5165\u6846\u6682\u65f6\u4e0d\u53ef\u7528');
+          } catch { showToast('\u5199\u5165\u5e73\u53f0\u8f93\u5165\u6846\u5931\u8d25'); }
+        });
+      });
+      bridge?.onContext?.((next) => {
+        context = { ...context, ...(next || {}) };
+        const nextGoalConversationKey = conversationKey(context);
+        if (nextGoalConversationKey !== goalConversationKey) {
+          goalConversationKey = nextGoalConversationKey;
+          goalDirty = false;
+        }
+        const nextSignature = contextSignature(context);
+        const contextChanged = !hasReceivedContext || nextSignature !== lastContextSignature;
+        hasReceivedContext = true;
+        lastContextSignature = nextSignature;
+        if (contextChanged) contextRevision += 1;
+        const platform = context.platform || '\u5f53\u524d\u5e73\u53f0';
+        const account = context.account || context.windowTitle || '\u5f53\u524d\u7a97\u53e3';
+        context.customerName = context.customerName || '当前客户';
+        if (!goalDirty) goalInput.value = context.goal || '';
+        contextLabel.textContent = `${platform} \u00b7 ${account}`;
+        platformName.textContent = platform;
+         accountName.textContent = account;
+         updateLanguageSummary();
+         applyModelMetadata(context.aiModel || {});
+         if (modelCatalog.length) renderModelCatalog(modelCatalog, context.aiModel || {});
+         if (contextChanged || generatedRevision < 0) void loadSuggestions();
+       });
+       renderSuggestions();
+       void loadModelCatalog();
+    </script>
+  </body>
+</html>

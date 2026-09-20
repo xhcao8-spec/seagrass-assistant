@@ -49,6 +49,30 @@ WhatsApp 当前聊天中已加载的图片可以作为 AI 回复的上下文。�
 
 软件免费开源，**DeepSeek API 使用费由 DeepSeek 计收**。你可以在软件“余额”页面查看 API 账户金额。模型表现受原文、上下文、图片清晰度等影响，AI 译文和建议均需人工核对。
 
+## 软件界面
+
+以下图片由软件实际界面渲染截图，使用隔离的演示环境，没有登录客户账号。昵称、对话和回复文案均为虚构演示数据，不代表实时模型输出；未使用真实客户聊天、手机号、二维码或 API Key。
+
+**AI 建议回复：填写目的，选择模式和建议条数，核对译文后插入。**
+
+![AI 建议回复界面，使用虚构的周末徒步话题演示](docs/images/ai-replies-demo.png)
+
+<details>
+<summary>查看应用中心</summary>
+
+![应用中心：平台入口与窗口管理，未连接客户账号](docs/images/app-center.png)
+
+目前重点完善 WhatsApp，其他平台正在适配。
+
+</details>
+
+<details>
+<summary>查看 DeepSeek Key 配置与模型</summary>
+
+![DeepSeek API 设置：Key 输入框为空，展示模型与配置入口](docs/images/api-settings.png)
+
+</details>
+
 ## 下载与五分钟上手
 
 - **[GitHub 下载](https://github.com/xhcao8-spec/seagrass-assistant/releases/latest)**：展开 Assets，下载 `SeagrassAssistant-Setup-版本号.exe`。
@@ -102,6 +126,14 @@ pnpm package:win
 持续完善 WhatsApp 的页面适配、翻译稳定性、发送方识别、图片理解和 AI 回复质量，并逐步完善其他平台。
 
 欢迎在 [Issues](https://github.com/xhcao8-spec/seagrass-assistant/issues) 提交版本、系统、复现步骤和脱敏截图。请勿提交 Key、登录二维码、手机号或真实聊天隐私。
+
+## 联系与反馈
+
+- 邮箱：[xhcao8@gmail.com](mailto:xhcao8@gmail.com)
+- 微信：`bcbccaa`
+- 问题反馈：[GitHub Issues](https://github.com/xhcao8-spec/seagrass-assistant/issues)
+
+反馈时请描述软件版本和复现步骤，不要发送 API Key、登录二维码或客户聊天隐私。
 
 ## 开源许可
 
